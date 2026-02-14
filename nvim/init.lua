@@ -7,7 +7,7 @@ opt.relativenumber = true -- show relative line numbers
 opt.numberwidth = 4 -- Width of the number column
 
 -- Tabs and indentation
-opt.tabstop = 2-- Number of spaces a tab counts for
+opt.tabstop = 2 -- Number of spaces a tab counts for
 opt.autoindent = true -- Copy indent from current line when starting new line
 opt.smartindent = true -- Smart autoindentation when starting a new line
 

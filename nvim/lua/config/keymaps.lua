@@ -1,5 +1,4 @@
 -- ~/.config/nvim/lua/config/keymaps.lua
-
 local map = vim.keymap.set
 
 -- Better escape (optional)
@@ -10,36 +9,36 @@ map("n", "<C-s>", ":w<CR>")
 map("n", "<C-q>", ":q<CR>")
 
 -- Cut, copy pase
-local opts = {noremap = true, silent = true}
+local opts = { noremap = true, silent = true }
 local function is_visual()
-				local mode = vim.fn.mode()
-				return mode == "v" or mode == "V" or mode == "\22"
+	local mode = vim.fn.mode()
+	return mode == "v" or mode == "V" or mode == "\22"
 end
-map("n","<C-a>",":ggVg", opts)
-map({"n","v"},"<C-c>",function()
-				if is_visual() then
-								vim.cmd('normal! "+y')
-				else
-								vim.cmd('normal! ggVG"+y')
-				end
+map("n", "<C-a>", ":ggVg", opts)
+map({ "n", "v" }, "<C-c>", function()
+	if is_visual() then
+		vim.cmd('normal! "+y')
+	else
+		vim.cmd('normal! ggVG"+y')
+	end
 end, opts)
 
-map({"n","v"},"<C-x>",function()
-				if is_visual() then
-								vim.cmd('normal! "+d')
-				else
-								vim.cmd('normal! ggVG"+d')
-				end
+map({ "n", "v" }, "<C-x>", function()
+	if is_visual() then
+		vim.cmd('normal! "+d')
+	else
+		vim.cmd('normal! ggVG"+d')
+	end
 end, opts)
 
-map({"n","v"},"<C-d>",function()
-				if is_visual() then
-								vim.cmd('normal! "_d')
-				else
-								vim.cmd('normal! ggVG_d')
-				end
-end,opts)
-map({"n","v","i"},"<C-v>",'"+p', opts)
+map({ "n", "v" }, "<C-d>", function()
+	if is_visual() then
+		vim.cmd('normal! "_d')
+	else
+		vim.cmd("normal! ggVG_d")
+	end
+end, opts)
+map({ "n", "v", "i" }, "<C-v>", '"+p', opts)
 
 -- Window navigation
 -- map("n", "<C-h>", "<C-w>h")
@@ -78,8 +77,8 @@ map("n", "<leader>b", ":Telescope buffers<CR>")
 -- map("v", "<CR>", ":<C-u>MoltenEvaluateVisual<CR>gv")
 
 -- Command line terminal
-map("n","<C-j>",":ToggleTerm direction=horizontal size=15<CR>")
-map("t","<C-j>", "<C-\\><C-n>:ToggleTerm<CR>")
+map("n", "<C-j>", ":ToggleTerm direction=horizontal size=15<CR>")
+map("t", "<C-j>", "<C-\\><C-n>:ToggleTerm<CR>")
 
 -- Command palette
-map("n","<leader><leader>",":Telescope commands<CR>")
+map("n", "<leader><leader>", ":Telescope commands<CR>")

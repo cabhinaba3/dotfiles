@@ -1,4 +1,5 @@
----- These settings configure the general behvaiour of Neovim
+-- require("config.lazy")
+-- These settings configure the general behvaiour of Neovim
 local opt = vim.opt
 
 -- enable line numbers and relative numbers
@@ -12,7 +13,7 @@ opt.autoindent = true -- Copy indent from current line when starting new line
 opt.smartindent = true -- Smart autoindentation when starting a new line
 
 -- Line wrapping
-opt.wrap  = false
+opt.wrap = false
 opt.linebreak = true
 
 -- Search settings
@@ -64,15 +65,16 @@ opt.foldexpr = "nvim_treesitter#foldexpr()" -- use treesitter for folding
 opt.foldenable = false -- Dont fold by default
 
 -- Speacial characters
-vim.keymap.set("n","-", vim.cmd.Ex)
+vim.keymap.set("n", "-", vim.cmd.Ex)
 
 -- the default leader key is \ but using space bar is way more convenient
-vim.g.mapleader = "<CR>"
-vim.g.maplocalleader = "<CR>"
+vim.g.mapleader = "<C>"
+vim.g.maplocalleader = "<C>"
 --print("hello")
 
 -- Python provider
--- Set python provider (adjust path to your python installation)
 -- vim.g.python3_host_prog = '/usr/bin/python3' -- uncomment and adjust if needed
-require("config.lazy")
+-- Set python provider (adjust path to your python installation)
 require("config.keymaps")
+require("config.lazy")
+-- require("config.keymaps")

@@ -1,0 +1,69 @@
+# Starship Configuration (Nord Minimal)
+format = """
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_status\
+$python\
+$cmake\
+$docker_context\
+$kubernetes\
+$cmd_duration\
+$character"""
+
+add_newline = false
+
+[character]
+success_symbol = "[>](bold #A3BE8C)"
+error_symbol = "[x](bold #BF616A)"
+
+[directory]
+truncation_length = 3
+style = "bold #81A1C1"
+read_only = " RO"
+
+[git_branch]
+symbol = "git:"
+style = "bold #A3BE8C"
+
+[git_status]
+style = "bold #BF616A"
+ahead = "+"
+behind = "-"
+modified = "!"
+staged = "+"
+untracked = "?"
+
+[python]
+style = "bold #EBCB8B"
+symbol = "py:"
+
+[cmake]
+style = "bold #88C0D0"
+
+[docker_context]
+style = "bold #B48EAD"
+symbol = "docker:"
+
+[kubernetes]
+disabled = true
+style = "bold #88C0D0"
+symbol = "k8s:"
+
+[cmd_duration]
+min_time = 2000
+style = "bold #88C0D0"
+
+[username]
+style_user = "white bold"
+style_root = "red bold"
+format = "[$user]($style) "
+show_always = false
+
+[hostname]
+ssh_only = true
+format = "on [$hostname](bold #B48EAD) "
+
+[time]
+disabled = true

@@ -1,0 +1,7 @@
+# Global gitignore, installed to ~/.config/git/ignore.
+# Keep this to things that are personal-environment noise everywhere,
+# not project-specific build artifacts (those belong in each repo's own
+# .gitignore).
+
+**/.claude/settings.local.json
+.DS_Store

@@ -1,0 +1,34 @@
+# Machine-local / secret -- never commit these.
+*.local
+.bashrc.local
+.env
+.env.*
+.credentials.json
+.git-credentials
+hosts.yml
+
+# Key material, wherever it might accidentally land.
+*.pem
+*.key
+id_rsa
+id_rsa.pub
+id_ed25519
+id_ed25519.pub
+known_hosts
+known_hosts.old
+
+# Editor / OS noise.
+.DS_Store
+*.swp
+*.bak
+*.bak.*
+
+# Python cache from anything accidentally run inside this tree.
+__pycache__/
+*.pyc
+
+# This repo's own backup drops if ever pointed here instead of $HOME.
+.dotfiles-backup/
+
+# Local virtualenv some earlier tooling in this repo left behind.
+.venv/

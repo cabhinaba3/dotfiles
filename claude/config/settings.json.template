@@ -1,0 +1,15 @@
+{
+  "permissions": { "defaultMode": "auto" },
+  "model": "sonnet",
+  "enabledPlugins": { "humanizer@humanizer": true },
+  "extraKnownMarketplaces": {
+    "humanizer": { "source": { "source": "github", "repo": "blader/humanizer" } }
+  },
+  "effortLevel": "xhigh",
+  "autoCompactWindow": 1000000,
+  "askUserQuestionTimeout": "60s",
+  "theme": "dark",
+  "autoCompactEnabled": true,
+  "switchModelsOnFlag": false,
+  "agentPushNotifEnabled": true
+}

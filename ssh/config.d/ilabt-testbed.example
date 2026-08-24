@@ -1,0 +1,34 @@
+# Personal example: imec iLab.t remote testbed access (referenced from this
+# user's project notes as the "NSEdge remote testbed"). Reproduced here only
+# as a template -- it is NOT installed by install.sh and the private key
+# (a .pem file, kept outside ~/.ssh on the original machine) is never part
+# of this repo. Fill in {{...}} placeholders and your own IdentityFile path
+# before using.
+
+Host n0710-10.wall1.ilabt.imec.be
+    HostName n0710-10.wall1.ilabt.imec.be
+    ForwardAgent yes
+    ForwardX11 yes
+    ServerAliveInterval 120
+    IdentityFile {{PATH_TO_YOUR_ILABT_PEM_KEY}}
+    User {{YOUR_ILABT_USERNAME}}
+    Port 22
+    ProxyCommand ssh -i {{PATH_TO_YOUR_ILABT_PEM_KEY}} -oPort=22 {{YOUR_ILABT_USERNAME}}@bastion.ilabt.imec.be -W %h:%p
+
+Host bastion.ilabt
+    HostName bastion.ilabt.imec.be
+    User {{YOUR_ILABT_USERNAME}}
+    Port 22
+    AddressFamily inet
+    IdentityFile {{PATH_TO_YOUR_ILABT_PEM_KEY}}
+
+Host n079-16
+    HostName n079-16.wall1.ilabt.imec.be
+    User {{YOUR_ILABT_USERNAME}}
+    Port 22
+    AddressFamily inet
+    IdentityFile {{PATH_TO_YOUR_ILABT_PEM_KEY}}
+    ForwardAgent yes
+    ForwardX11 yes
+    ServerAliveInterval 120
+    ProxyJump bastion.ilabt

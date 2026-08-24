@@ -1,0 +1,40 @@
+[2026-07-27 10:56:52.570422] Searching arXiv for keywords: ['"AI alignment"', 'mechanistic interpretability', '"reinforcement learning from human feedback"']
+Traceback (most recent call last):
+  File "/home/cohitherewer/Desktop/dotfiles/automate_stuff/paper_finding/paper_finder.py", line 122, in <module>
+    main()
+    ~~~~^^
+  File "/home/cohitherewer/Desktop/dotfiles/automate_stuff/paper_finding/paper_finder.py", line 102, in main
+    papers = search_arxiv(KEYWORDS)
+  File "/home/cohitherewer/Desktop/dotfiles/automate_stuff/paper_finding/paper_finder.py", line 20, in search_arxiv
+    response = urllib.request.urlopen(url)
+  File "/usr/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/usr/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/usr/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/usr/lib/python3.14/urllib/request.py", line 1350, in http_open
+    return self.do_open(http.client.HTTPConnection, req)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/http/client.py", line 1367, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/http/client.py", line 1378, in _send_request
+    self.putrequest(method, url, **skips)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/http/client.py", line 1212, in putrequest
+    self._validate_path(url)
+    ~~~~~~~~~~~~~~~~~~~^^^^^
+  File "/usr/lib/python3.14/http/client.py", line 1312, in _validate_path
+    raise InvalidURL(f"URL can't contain control characters. {url!r} "
+                     f"(found at least {match.group()!r})")
+http.client.InvalidURL: URL can't contain control characters. '/api/query?search_query=all:%22AI%20alignment%22 OR all:mechanistic%20interpretability OR all:%22reinforcement%20learning%20from%20human%20feedback%22&sortBy=submittedDate&sortOrder=descending&max_results=50' (found at least ' ')

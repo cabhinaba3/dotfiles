@@ -6,6 +6,10 @@ PKG_MAP=(
     "base-devel:build-essential"
     "eza:eza"          # falls back to exa on old releases, see pkg_install
     "picom:picom"
+    "openssh:openssh-client"
+    "fd:fd-find"
+    "which:debianutils"
+    "xsetroot:x11-xserver-utils"
 )
 
 pkg_install() {

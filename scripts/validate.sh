@@ -57,8 +57,11 @@ for cmd in tmux nvim starship rg fd bat eza fzf delta; do
     has "$cmd" && result PASS "command: $cmd" "$(command -v "$cmd")" || result WARN "command: $cmd" "not installed (optional)"
 done
 
-echo; echo "== Shell config =="
-check_symlink "bashrc_hacker" "$HOME/.bashrc_hacker"
+if [ -L "$HOME/.bashrc.interactive" ] || [ -L "$HOME/.bashrc_hacker" ]; then
+    result PASS "bash interactive config" "symlink present"
+else
+    result WARN "bash interactive config" "symlink missing (~/.bashrc.interactive)"
+fi
 if grep -qF "dotfiles:bashrc" "$HOME/.bashrc" 2>/dev/null; then
     result PASS "~/.bashrc managed block" "present"
 else
@@ -128,7 +131,7 @@ if has claude; then
         result WARN "~/.claude/settings.json" "missing"
     fi
 else
-    result FAIL "claude CLI" "not installed -- run ./claude/install.sh"
+    result WARN "claude CLI" "not installed (optional) -- run ./claude/install.sh"
 fi
 
 echo; echo "== systemd --user (if applicable) =="

@@ -5,7 +5,8 @@
 
 link_shell_configs() {
     step "Linking shell configuration"
-    link "$DOTFILES_ROOT/bash/bashrc_hacker" "$HOME/.bashrc_hacker"
+    link "$DOTFILES_ROOT/bash/interactive.bash" "$HOME/.bashrc.interactive"
+    link "$DOTFILES_ROOT/bash/interactive.bash" "$HOME/.bashrc_hacker"
     install_block "$HOME/.bashrc" "bashrc" "$DOTFILES_ROOT/bash/bashrc.block"
     install_block "$HOME/.bash_profile" "bash_profile" "$DOTFILES_ROOT/bash/bash_profile.block"
     install_block "$HOME/.profile" "profile" "$DOTFILES_ROOT/bash/profile.block"
@@ -23,12 +24,24 @@ link_terminal_configs() {
     if has alacritty || [ "$DOTFILES_HAS_DESKTOP" = 1 ]; then
         link "$DOTFILES_ROOT/alacritty/alacritty.toml" "$HOME/.config/alacritty/alacritty.toml"
     fi
-    link "$DOTFILES_ROOT/broot/conf.toml" "$HOME/.config/broot/conf.toml"
-    link "$DOTFILES_ROOT/broot/broot_wrapper.sh" "$HOME/.config/broot/broot_wrapper.sh"
+
+    # Set Alacritty as default terminal across XDG and x-terminal-emulator
+    local alacritty_bin
+    alacritty_bin="$(command -v alacritty 2>/dev/null || true)"
+    if [ -n "$alacritty_bin" ]; then
+        if [ "${DOTFILES_DRY_RUN:-0}" = 1 ]; then
+            printf "%b[dry-run]%b would configure Alacritty as default terminal in ~/.local/bin/x-terminal-emulator and ~/.config/xdg-terminals.list\n" "$C_YELLOW" "$C_RESET"
+        else
+            mkdir -p "$HOME/.local/bin" "$HOME/.config"
+            ln -sf "$alacritty_bin" "$HOME/.local/bin/x-terminal-emulator"
+            echo "Alacritty.desktop" > "$HOME/.config/xdg-terminals.list"
+            log "configured Alacritty as default terminal (x-terminal-emulator, xdg-terminals.list)"
+        fi
+    fi
 }
 
 link_i3_desktop() {
-    if [ "$DOTFILES_HAS_DESKTOP" != 1 ] || [ "$DOTFILES_DISPLAY_SERVER" != "x11" ]; then
+    if [ "${MODE:-default}" != "full" ] && { [ "$DOTFILES_HAS_DESKTOP" != 1 ] || [ "$DOTFILES_DISPLAY_SERVER" != "x11" ]; }; then
         info "no X11 desktop session detected -- skipping i3/picom/alacritty desktop config (use --full to force)"
         return 0
     fi
@@ -45,29 +58,10 @@ link_x11_cursor_theme() {
     if [ "$DOTFILES_DISPLAY_SERVER" != "x11" ]; then
         return 0
     fi
-    step "Configuring Dracula cursor theme (X11)"
+    step "Configuring cursor theme (X11)"
     link "$DOTFILES_ROOT/x11/gtk-3.0-settings.ini" "$HOME/.config/gtk-3.0/settings.ini"
     link "$DOTFILES_ROOT/x11/default-cursor-index.theme" "$HOME/.icons/default/index.theme"
     install_block "$HOME/.Xresources" "xresources-cursor" "$DOTFILES_ROOT/x11/Xresources.cursor"
-
-    if [ ! -d "$HOME/.icons/Dracula-cursors/cursors" ]; then
-        if [ "${DOTFILES_DRY_RUN:-0}" = 1 ]; then
-            printf "%b[dry-run]%b would download Dracula cursor theme to ~/.icons/Dracula-cursors\n" "$C_YELLOW" "$C_RESET"
-        elif has curl; then
-            local url="https://github.com/dracula/gtk/releases/download/v4.0.0/Dracula-cursors.tar.xz"
-            local tmp; tmp="$(mktemp -u).tar.xz"
-            if curl -fsSL -o "$tmp" "$url"; then
-                mkdir -p "$HOME/.icons"
-                tar xf "$tmp" -C "$HOME/.icons/"
-                rm -f "$tmp"
-                log "Dracula cursor theme installed"
-            else
-                warn "could not download Dracula cursor theme (network?) -- skipping, not fatal"
-            fi
-        fi
-    else
-        verbose "Dracula cursor theme already present"
-    fi
 }
 
 link_claude_config() {
@@ -98,13 +92,15 @@ link_systemd_user_units() {
     fi
     step "Installing systemd --user units"
     mkdir -p "$HOME/.config/systemd/user"
-    sed "s#{{HOME}}#$HOME#g" "$DOTFILES_ROOT/systemd/user/distant-manager.service.template" > "/tmp/distant-manager.service.$$"
+    local tmp_service
+    tmp_service="$(mktemp)"
+    sed "s#{{HOME}}#$HOME#g" "$DOTFILES_ROOT/systemd/user/distant-manager.service.template" > "$tmp_service"
     if [ "${DOTFILES_DRY_RUN:-0}" = 1 ]; then
         printf "%b[dry-run]%b would install ~/.config/systemd/user/distant-manager.service and enable it\n" "$C_YELLOW" "$C_RESET"
-        rm -f "/tmp/distant-manager.service.$$"
+        rm -f "$tmp_service"
         return 0
     fi
-    mv "/tmp/distant-manager.service.$$" "$HOME/.config/systemd/user/distant-manager.service"
+    mv "$tmp_service" "$HOME/.config/systemd/user/distant-manager.service"
     run "systemctl --user daemon-reload" -- systemctl --user daemon-reload
     run "systemctl --user enable distant-manager" -- systemctl --user enable distant-manager.service
     log "distant-manager.service installed and enabled"

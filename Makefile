@@ -19,5 +19,8 @@ uninstall:
 	./uninstall.sh
 
 lint:
-	@command -v shellcheck >/dev/null 2>&1 && shellcheck install.sh uninstall.sh scripts/*.sh packages/*.sh claude/install.sh \
-		|| echo "shellcheck not installed, skipping"
+	@if command -v shellcheck >/dev/null 2>&1; then \
+		shellcheck install.sh uninstall.sh scripts/*.sh packages/*.sh claude/install.sh i3/*.sh bash/*.bash; \
+	else \
+		echo "shellcheck not installed, skipping"; \
+	fi

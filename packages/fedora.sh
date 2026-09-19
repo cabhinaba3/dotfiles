@@ -5,6 +5,11 @@ PKG_MAP=(
     "git-delta:git-delta"
     "base-devel:@development-tools"
     "ripgrep:ripgrep"
+    "fd:fd-find"
+    "gnupg:gnupg2"
+    "pkg-config:pkgconf-pkg-config"
+    "i3-wm:i3"
+    "openssh:openssh-clients"
 )
 
 pkg_install() {

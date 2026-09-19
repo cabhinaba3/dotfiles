@@ -19,13 +19,12 @@ DOTFILES_DRY_RUN=0
 export DOTFILES_DRY_RUN
 
 LINKED_PATHS=(
+    "$HOME/.bashrc.interactive"
     "$HOME/.bashrc_hacker"
     "$HOME/.tmux.conf"
     "$HOME/.config/starship.toml"
     "$HOME/.config/alacritty/alacritty.toml"
     "$HOME/.config/nvim/init.lua"
-    "$HOME/.config/broot/conf.toml"
-    "$HOME/.config/broot/broot_wrapper.sh"
     "$HOME/.config/git/ignore"
     "$HOME/.config/i3/config"
     "$HOME/.config/i3/set_wallpaper.sh"

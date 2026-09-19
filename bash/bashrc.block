@@ -1,16 +1,26 @@
 [ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
 
+# Lazy load NVM on first command use to avoid startup latency
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+load_nvm() {
+    unset -f nvm node npm npx
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+}
+for cmd in nvm node npm npx; do
+    eval "$cmd() { load_nvm; $cmd \"\$@\"; }"
+done
 
 case ":$PATH:" in
     *":$HOME/.local/bin:"*) ;;
     *) export PATH="$HOME/.local/bin:$PATH" ;;
 esac
 
-[ -f "$HOME/.bashrc_hacker" ] && source "$HOME/.bashrc_hacker"
-[ -f "$HOME/.config/broot/launcher/bash/br" ] && source "$HOME/.config/broot/launcher/bash/br"
+if [ -f "$HOME/.bashrc.interactive" ]; then
+    source "$HOME/.bashrc.interactive"
+elif [ -f "$HOME/.bashrc_hacker" ]; then
+    source "$HOME/.bashrc_hacker"
+fi
 
 # Machine-local, gitignored overrides (secrets, one-off aliases, etc.)
 [ -f "$HOME/.bashrc.local" ] && source "$HOME/.bashrc.local"

@@ -7,7 +7,7 @@ set $alt Mod1
 # Font for window titles. Using a standard monospace font.
 font pango:JetBrainsMono Nerd Font 7
 
-for_window [all] title_window_icon on
+for_window [class=".*"] title_window_icon on
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -180,8 +180,8 @@ bar {
 	}
 }
 
-# Transparency (requires picom)
-exec --no-startup-id picom --config ~/.config/picom/picom.conf -b
+# Compositor (picom)
+exec_always --no-startup-id bash -c "killall -q picom; picom --config ~/.config/picom/picom.conf -b"
 
 # Set video wallpaper
 exec_always --no-startup-id ~/.config/i3/set_wallpaper.sh

@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # Node.js setup. The source machine ran a plain distro-packaged Node
 # (no nvm-managed version actually active, despite nvm being installed --
 # see docs/machine-specific.md), so the default here is: install Node via

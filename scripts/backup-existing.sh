@@ -6,13 +6,12 @@
 # to $HOME. Safe to run standalone -- it never installs anything.
 
 DOTFILES_MANAGED_PATHS=(
+    "$HOME/.bashrc.interactive"
     "$HOME/.bashrc_hacker"
     "$HOME/.tmux.conf"
     "$HOME/.config/starship.toml"
     "$HOME/.config/alacritty/alacritty.toml"
     "$HOME/.config/nvim/init.lua"
-    "$HOME/.config/broot/conf.toml"
-    "$HOME/.config/broot/broot_wrapper.sh"
     "$HOME/.config/git/ignore"
     "$HOME/.config/i3/config"
     "$HOME/.config/i3/set_wallpaper.sh"
@@ -39,3 +38,10 @@ backup_all_existing() {
         log "backups saved under $DOTFILES_BACKUP_ROOT"
     fi
 }
+
+if [ "${BASH_SOURCE[0]}" = "$0" ]; then
+    DOTFILES_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+    # shellcheck source=scripts/lib.sh
+    . "$DOTFILES_ROOT/scripts/lib.sh"
+    backup_all_existing "$@"
+fi

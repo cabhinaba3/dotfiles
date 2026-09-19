@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Main bootstrap entrypoint.
 #
-#   cd ~/Desktop/dotfiles && ./install.sh
+#   cd ~/dotfiles && ./install.sh
 #
 # Detects the distro/package manager/init system/shell/desktop, installs
 # packages, links configuration, installs Claude Code, configures git,
@@ -12,6 +12,8 @@ set -Eeuo pipefail
 
 DOTFILES_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export DOTFILES_ROOT
+
+case ":$PATH:" in *":$HOME/.local/bin:"*) ;; *) export PATH="$HOME/.local/bin:$PATH" ;; esac
 
 # --- flags -----------------------------------------------------------------
 DOTFILES_DRY_RUN=0
@@ -115,12 +117,17 @@ else
     CATEGORIES=(core shell)
     if [ "$MODE" != "minimal" ]; then
         CATEGORIES+=(modern-cli development networking)
-        [ "$DOTFILES_HAS_DESKTOP" = 1 ] && CATEGORIES+=(desktop)
+        if [ "$DOTFILES_HAS_DESKTOP" = 1 ] || [ "$MODE" = "full" ]; then
+            CATEGORIES+=(desktop)
+        fi
     fi
     [ "$MODE" = "full" ] && CATEGORIES+=(optional)
     step "Installing packages: ${CATEGORIES[*]}"
     install_packages "${CATEGORIES[@]}"
 fi
+
+# Configure npm prefix early so any global installs do not require sudo
+configure_npm_no_sudo
 
 # --- 3. Claude Code ------------------------------------------------------------
 if [ "$SKIP_CLAUDE" = 1 ]; then
@@ -143,7 +150,6 @@ link_systemd_user_units
 configure_git
 
 # --- 6. dev tooling --------------------------------------------------------------
-configure_npm_no_sudo
 if [ "$MODE" != "minimal" ]; then
     install_rust
 fi

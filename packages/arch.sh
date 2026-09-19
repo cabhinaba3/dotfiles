@@ -4,6 +4,9 @@
 PKG_MAP=(
     "git-delta:git-delta"
     "base-devel:base-devel"
+    "python3:python"
+    "pkg-config:pkgconf"
+    "xsetroot:xorg-xsetroot"
 )
 
 pkg_install() {

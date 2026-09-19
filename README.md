@@ -6,7 +6,7 @@ the distro, package manager, init system, shell, and desktop session
 instead of assuming any of them.
 
 ```bash
-cd ~/Desktop/dotfiles
+cd ~/dotfiles
 ./install.sh
 ```
 
@@ -17,10 +17,10 @@ be overwritten gets backed up first to `~/.dotfiles-backup/<timestamp>/`.
 
 | Directory | Installs to | Notes |
 |---|---|---|
-| `bash/` | `~/.bashrc`, `~/.bash_profile`, `~/.profile`, `~/.bashrc_hacker` | managed blocks in the rc files (not full replacement), Nord-themed aliases/functions |
+| `bash/` | `~/.bashrc`, `~/.bash_profile`, `~/.profile`, `~/.bashrc.interactive` | managed blocks in the rc files (not full replacement), modular aliases/functions/env |
 | `git/` | `~/.config/git/ignore` + `git config --global` keys | never overwrites your whole `~/.gitconfig` |
 | `ssh/` | nothing automatically | opt-in templates only, see `ssh/README.md` |
-| `tmux/`, `starship/`, `nvim/`, `alacritty/`, `broot/` | the obvious `~/.config/...` path each tool expects | plain symlinks |
+| `tmux/`, `starship/`, `nvim/`, `alacritty/` | the obvious `~/.config/...` path each tool expects | plain symlinks |
 | `i3/`, `x11/` | `~/.config/i3*`, `~/.config/picom`, cursor theme | only when an X11 desktop session is detected |
 | `claude/` | Claude Code binary + `~/.claude/settings.json` (if absent) | see `claude/README.md` for auth |
 | `systemd/` | `~/.config/systemd/user/` | only the one genuinely user-authored unit found (`distant-manager`), templated, only if `distant` is installed |
@@ -42,6 +42,144 @@ be overwritten gets backed up first to `~/.dotfiles-backup/<timestamp>/`.
 ./scripts/validate.sh            # PASS/WARN/FAIL/SKIP report of current state
 ./uninstall.sh [--dry-run]       # remove symlinks + managed rc blocks (not packages/Claude Code)
 ```
+
+## Keyboard Shortcuts & Keybindings (Custom & Overridden)
+
+Detailed reference of all keyboard shortcuts configured across the environment, highlighting customized and overridden defaults.
+
+### 1. i3 Window Manager
+
+* **Modifier Keys:** `$mod` = `Super` (Windows Key), `$alt` = `Alt`
+
+| Shortcut | Action | Notes / Overrides |
+|---|---|---|
+| **Applications & System** | | |
+| `$mod + Enter` | Launch Terminal (**Alacritty**) | **Overridden:** Launches Alacritty directly instead of xterm |
+| `$mod + Space` | Application Launcher | **Overridden:** Uses `j4-dmenu-desktop` / `dmenu` |
+| `$mod + q` | Close / Kill focused window | Standard i3 kill |
+| `$mod + Shift + r` | **Restart i3 in-place** | Reloads config, restarts `picom` & wallpaper without closing apps |
+| `$mod + Shift + c` | Reload i3 configuration | Reloads config file without restarting processes |
+| `$mod + Shift + e` | Exit i3 session | Prompts to log out of X11 |
+| `$mod + Pause` | Lock Screen | Invokes `i3lock` |
+| **Window Navigation & Layout** | | |
+| `$mod + h / j / k / l` | Focus Left / Down / Up / Right | **Custom:** Vim-style directional focus (arrow keys also supported) |
+| `$mod + Shift + h / j / k / l` | Move window Left / Down / Up / Right | Vim-style directional window movement |
+| `$mod + b` | Split next window **Horizontally** | Side-by-side tile |
+| `$mod + v` | Split next window **Vertically** | Top/bottom tile |
+| `$mod + f` | Toggle Fullscreen | Maximizes focused container |
+| `$mod + s` | Stacking Layout | All windows stacked vertically with title tabs |
+| `$mod + w` | Tabbed Layout | Windows organized as tabs |
+| `$mod + e` | Toggle Split Layout | Cycles between horizontal and vertical tiling |
+| `$mod + Shift + Space` | Toggle Floating Mode | Detaches window from tiling grid |
+| `$mod + a` | Focus Parent Container | Ascends container tree |
+| **Workspaces** | | |
+| `$mod + 1 .. 0` | Switch to Workspace 1–10 | Instant workspace jump |
+| `$mod + Shift + 1 .. 0` | Move focused window to Workspace 1–10 | Moves active window to target workspace |
+| **Media & Hardware Controls** | | |
+| `XF86AudioRaiseVolume` | Volume +5% | Controlled via `pamixer -i 5` |
+| `XF86AudioLowerVolume` | Volume -5% | Controlled via `pamixer -d 5` |
+| `XF86AudioMute` | Toggle Audio Mute | Controlled via `pamixer -t` |
+| `XF86MonBrightnessUp` | Brightness +5% | Controlled via `brightnessctl set +5%` |
+| `XF86MonBrightnessDown` | Brightness -5% | Controlled via `brightnessctl set 5%-` |
+
+---
+
+### 2. Tmux (Terminal Multiplexer)
+
+* **Prefix Key Overridden:** **`Ctrl-a`** *(Default `Ctrl-b` is unbinded and replaced)*
+
+| Shortcut | Action | Notes / Overrides |
+|---|---|---|
+| **Pane Navigation (Prefix-free)** | | |
+| **`Alt + h`** | Focus pane Left | **Custom Override:** No prefix needed! Instant Vim pane jump |
+| **`Alt + j`** | Focus pane Down | **Custom Override:** No prefix needed! Instant Vim pane jump |
+| **`Alt + k`** | Focus pane Up | **Custom Override:** No prefix needed! Instant Vim pane jump |
+| **`Alt + l`** | Focus pane Right | **Custom Override:** No prefix needed! Instant Vim pane jump |
+| **Pane & Window Management** | | |
+| `Ctrl-a |` | Split pane **Horizontally** | **Overridden:** Replaces `"`, preserves current working directory |
+| `Ctrl-a -` | Split pane **Vertically** | **Overridden:** Replaces `%`, preserves current working directory |
+| `Ctrl-a c` | Create new window | **Overridden:** Preserves current working directory |
+| `Ctrl-a z` | Toggle pane zoom | Maximizes focused pane to fullscreen |
+| `Ctrl-a x` | Close active pane | Prompts to kill pane |
+| `Ctrl-a ,` | Rename current window | Prompts for new name |
+| `Ctrl-a n` / `Ctrl-a p` | Next / previous window | Cycle through windows |
+| `Ctrl-a &` | Close current window | Kills current window and its panes |
+| `Ctrl-a r` | Reload Tmux config | Displays confirmation message on status bar |
+| `Ctrl-a d` | Detach session | Leaves tmux session running in background |
+| **Vi Copy Mode** | | |
+| `Ctrl-a [` | Enter Vi Copy Mode | Scroll history using `h/j/k/l`, `Ctrl-u`, `Ctrl-d` |
+| `v` *(in copy mode)* | Begin text selection | Standard Vi visual selection |
+| `y` *(in copy mode)* | Yank selection to system clipboard | **Custom:** Pipes selection to `xclip` / `wl-copy` and exits |
+
+---
+
+### 3. Neovim (`nvim`)
+
+* **Leader Key:** **`<Space>`**
+
+| Category | Shortcut | Action |
+|---|---|---|
+| **General** | `<leader>e` | Toggle file explorer tree (Nvim-tree) |
+| | `<Esc>` *(Normal mode)* | Clear search highlights |
+| **Search (Telescope)** | `<leader>sf` | Search files by name |
+| | `<leader>sg` | Live project-wide grep |
+| | `<leader><leader>` | Fuzzy find active open buffers |
+| | `<leader>sd` | Search diagnostics / lint warnings |
+| | `<leader>sh` | Search Vim help tags |
+| | `<leader>sk` | Search configured keymaps |
+| **LSP (Code Navigation)** | `gd` | Go to definition |
+| | `gr` | Go to references |
+| | `gI` | Go to implementation |
+| | `<leader>D` | Go to type definition |
+| | `K` | Hover symbol documentation |
+| | `<leader>rn` | Rename symbol across project |
+| | `<leader>ca` | Code actions / auto-fixes |
+| | `[d` / `]d` | Previous / next diagnostic message |
+| | `<leader>q` | Populate diagnostic quickfix list |
+| **Completion (Insert mode)**| `<C-Space>` | Manually trigger autocompletion popup |
+| | `<C-y>` | Confirm autocompletion suggestion |
+| | `<C-n>` / `<C-p>` | Select next / previous completion candidate |
+
+---
+
+### 4. Alacritty Terminal Emulator
+
+| Shortcut | Action | Notes |
+|---|---|---|
+| `Ctrl + Shift + V` / `Shift + Insert` | Paste from clipboard | Safe terminal paste |
+| `Ctrl + Shift + C` | Copy selected text | Copies selection to system clipboard |
+| `Ctrl + Shift + F` | Search forward in scrollback | Interactive regex / text search |
+| `Ctrl + Shift + B` | Search backward in scrollback | Backward buffer search |
+| `Ctrl + Shift + T` | Spawn new terminal instance | Opens duplicate Alacritty window |
+| `Ctrl + Plus` / `Ctrl + =` | Increase font size | Zooms in text |
+| `Ctrl + Minus` | Decrease font size | Zooms out text |
+| `Ctrl + 0` | Reset font size | Restores default 7.0 pt font |
+
+---
+
+### 5. Shell Aliases & Shortcuts (Bash)
+
+| Category | Command / Alias | Action |
+|---|---|---|
+| **Modern CLI Replacements** | `ls`, `ll`, `lt` | `eza` (colored list, detailed list, recursive tree) |
+| | `cat <file>` | `bat` (syntax highlighting, line numbers) |
+| | `grep <pattern>` | `rg` (ripgrep - fast multi-threaded search) |
+| | `find <pattern>` | `fd` (intuitive regex find, ignores `.git`) |
+| | `diff <f1> <f2>` | `delta` (side-by-side syntax-highlighted diff) |
+| | `top` | `htop` (interactive process viewer) |
+| | `sysinfo` | `fastfetch` (on-demand hardware/OS specifications) |
+| **Git Shortcuts** | `gs` | `git status` |
+| | `ga` | `git add` |
+| | `gc` | `git commit` |
+| | `gp` | `git push` |
+| | `gl` | `git log --oneline --graph --decorate -20` |
+| | `gd` | `git diff` |
+| | `gco` | `git checkout` |
+| | `gb` | `git branch` |
+| **Navigation & Helpers** | `mkcd <dir>` | Creates directory path and immediately enters it |
+| | `..`, `...`, `....` | Quick navigation up 1, 2, or 3 directories |
+| | `extract <file>` | Universally extracts `.tar.gz`, `.zip`, `.7z`, `.tar.bz2`, etc. |
+| | `Ctrl + r` | Interactive reverse history fuzzy search with **FZF** |
 
 ## How distribution detection works
 

@@ -27,7 +27,9 @@ detect_desktop() {
     fi
 
     DOTFILES_HAS_DESKTOP=0
-    [ -n "$DOTFILES_DE" ] || [ "$DOTFILES_DISPLAY_SERVER" != "none" ] && DOTFILES_HAS_DESKTOP=1
+    if [ -n "$DOTFILES_DE" ] || [ "$DOTFILES_DISPLAY_SERVER" != "none" ]; then
+        DOTFILES_HAS_DESKTOP=1
+    fi
 
     export DOTFILES_DE DOTFILES_DISPLAY_SERVER DOTFILES_HAS_DESKTOP
 }

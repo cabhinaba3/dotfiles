@@ -64,9 +64,4 @@ good on a different machine.
 
 ## Not part of "dotfiles" scope at all
 
-- `~/Desktop/automate_stuff/` — an unrelated, untracked paper-finding
-  automation project that happened to live inside this same `dotfiles/`
-  directory on disk. Left completely untouched; it was never part of
-  this repo's git history and isn't referenced by `install.sh`.
-- Five project-level `.claude/` directories under other `~/Desktop/*`
-  project folders — per-project state, not user-level config.
+- Per-project `.claude/` directories under project folders — per-project state, not user-level config.

@@ -3,6 +3,8 @@
 # shellcheck disable=SC2034
 PKG_MAP=(
     "base-devel:patterns-devel-base-devel_basis"
+    "gnupg:gpg2"
+    "i3-wm:i3"
 )
 
 pkg_install() {

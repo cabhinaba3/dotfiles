@@ -14,6 +14,8 @@ $character"""
 
 add_newline = false
 
+command_timeout = 200
+
 [character]
 success_symbol = "[>](bold #A3BE8C)"
 error_symbol = "[x](bold #BF616A)"
@@ -34,17 +36,18 @@ behind = "-"
 modified = "!"
 staged = "+"
 untracked = "?"
+ignore_submodules = true
 
 [python]
 style = "bold #EBCB8B"
 symbol = "py:"
+format = "via [${symbol}($virtualenv)]($style) "
 
 [cmake]
-style = "bold #88C0D0"
+disabled = true
 
 [docker_context]
-style = "bold #B48EAD"
-symbol = "docker:"
+disabled = true
 
 [kubernetes]
 disabled = true

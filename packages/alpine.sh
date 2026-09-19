@@ -6,6 +6,9 @@
 PKG_MAP=(
     "base-devel:build-base"
     "git-delta:delta"
+    "pkg-config:pkgconf"
+    "i3-wm:i3wm"
+    "openssh:openssh-client"
 )
 
 pkg_install() {

@@ -10,6 +10,8 @@ PKG_MAP=(
     "fd:fd-find"
     "which:debianutils"
     "xsetroot:x11-xserver-utils"
+    "xrandr:x11-xserver-utils"
+    "network-manager-applet:network-manager-gnome"
 )
 
 pkg_install() {

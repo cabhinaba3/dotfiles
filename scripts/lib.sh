@@ -105,16 +105,19 @@ confirm() {
 }
 
 # --- managed rc-file blocks ----------------------------------------------
-# install_block <target-file> <marker-name> <content-file>
+# install_block <target-file> <marker-name> <content-file> [comment-prefix]
 #
 # Idempotently maintains a marked region inside an rc file the user also
 # hand-edits (e.g. ~/.bashrc). Re-running with updated content replaces
 # only the region between the markers; content outside it is left alone.
 # Creates the target file (and parent dir) if it doesn't exist yet.
+# comment-prefix defaults to "#"; pass "!" for files like .Xresources whose
+# comment syntax differs (xrdb pipes the file through cpp, which chokes on
+# a bare "#" line that isn't a real preprocessor directive).
 install_block() {
-    local target="$1" marker="$2" content_file="$3"
-    local begin="# >>> dotfiles:${marker} >>> (managed by ${DOTFILES_ROOT}/install.sh, do not edit between markers)"
-    local end="# <<< dotfiles:${marker} <<<"
+    local target="$1" marker="$2" content_file="$3" comment="${4:-#}"
+    local begin="${comment} >>> dotfiles:${marker} >>> (managed by ${DOTFILES_ROOT}/install.sh, do not edit between markers)"
+    local end="${comment} <<< dotfiles:${marker} <<<"
 
     if [ ! -f "$content_file" ]; then
         err "install_block: missing content file $content_file"

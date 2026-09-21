@@ -55,32 +55,47 @@ Detailed reference of all keyboard shortcuts configured across the environment, 
 |---|---|---|
 | **Applications & System** | | |
 | `$mod + Enter` | Launch Terminal (**Alacritty**) | **Overridden:** Launches Alacritty directly instead of xterm |
-| `$mod + Space` | Application Launcher | **Overridden:** Uses `j4-dmenu-desktop` / `dmenu` |
+| `$mod + Space` | Application Launcher | **Overridden:** Uses `j4-dmenu-desktop --no-generic --display-binary` (needs the `j4-dmenu-desktop` package) |
 | `$mod + q` | Close / Kill focused window | Standard i3 kill |
-| `$mod + Shift + r` | **Restart i3 in-place** | Reloads config, restarts `picom` & wallpaper without closing apps |
-| `$mod + Shift + c` | Reload i3 configuration | Reloads config file without restarting processes |
-| `$mod + Shift + e` | Exit i3 session | Prompts to log out of X11 |
-| `$mod + Pause` | Lock Screen | Invokes `i3lock` |
+| `$mod + Shift + C` | Reload i3 configuration | Reloads config file without restarting processes |
+| `$mod + Shift + R` | **Restart i3 in-place** | Reloads config, restarts `picom` & wallpaper without closing apps |
+| `$mod + Shift + E` | Exit i3 session | Confirms via `i3-nagbar` before logging out of X11 |
+| `$mod + Pause` | Lock Screen | Invokes `i3lock` and forces the display off (`xset dpms force off`) |
 | **Window Navigation & Layout** | | |
-| `$mod + h / j / k / l` | Focus Left / Down / Up / Right | **Custom:** Vim-style directional focus (arrow keys also supported) |
-| `$mod + Shift + h / j / k / l` | Move window Left / Down / Up / Right | Vim-style directional window movement |
+| `$mod + h / j / k / l` (or arrow keys) | Focus Left / Down / Up / Right | **Custom:** Vim-style directional focus |
+| `$mod + Shift + h / j / k / l` (or arrow keys) | Move window Left / Down / Up / Right | Vim-style directional window movement |
 | `$mod + b` | Split next window **Horizontally** | Side-by-side tile |
 | `$mod + v` | Split next window **Vertically** | Top/bottom tile |
 | `$mod + f` | Toggle Fullscreen | Maximizes focused container |
 | `$mod + s` | Stacking Layout | All windows stacked vertically with title tabs |
 | `$mod + w` | Tabbed Layout | Windows organized as tabs |
 | `$mod + e` | Toggle Split Layout | Cycles between horizontal and vertical tiling |
-| `$mod + Shift + Space` | Toggle Floating Mode | Detaches window from tiling grid |
+| `$mod + Shift + Space` | Toggle Floating Mode | Detaches window from the tiling grid |
 | `$mod + a` | Focus Parent Container | Ascends container tree |
+| `$mod + n` | Focus Child Container | Descends container tree |
+| `$mod + r` | Enter resize mode | `h/j/k/l` or arrows resize (10px/10%), `Shift+` variants for 1px/1% steps; `Return`/`Escape` exits |
 | **Workspaces** | | |
 | `$mod + 1 .. 0` | Switch to Workspace 1–10 | Instant workspace jump |
 | `$mod + Shift + 1 .. 0` | Move focused window to Workspace 1–10 | Moves active window to target workspace |
+| `$mod + Tab` / `$mod + Shift + Tab` | Next / previous workspace on this output | |
+| `$alt + Tab` | Focus the output (monitor) to the right | Multi-monitor only |
+| **Marks** | | |
+| `$mod + m` / `$mod + Shift + M` | Set a mark on the focused window | Single-char vs. free-form (via `i3-input`) |
+| `$mod + Ctrl + m` | Remove a mark | |
+| `$mod + '` / `$mod + Shift + "` | Jump to a mark | Single-char vs. free-form |
+| **Notifications (dunst)** | | |
+| `$mod + .` | Close current notification | |
+| `$mod + Ctrl + .` | Close all notifications | |
+| `$mod + ,` | Redisplay last dismissed notification | |
+| `$mod + Shift + .` | Open dunst context menu | |
 | **Media & Hardware Controls** | | |
-| `XF86AudioRaiseVolume` | Volume +5% | Controlled via `pamixer -i 5` |
-| `XF86AudioLowerVolume` | Volume -5% | Controlled via `pamixer -d 5` |
-| `XF86AudioMute` | Toggle Audio Mute | Controlled via `pamixer -t` |
-| `XF86MonBrightnessUp` | Brightness +5% | Controlled via `brightnessctl set +5%` |
-| `XF86MonBrightnessDown` | Brightness -5% | Controlled via `brightnessctl set 5%-` |
+| `XF86AudioRaiseVolume` | Volume +5% | Controlled via `pamixer -i 5` (needs the `pamixer` package) |
+| `XF86AudioLowerVolume` | Volume -5% | Controlled via `pamixer -d 5` (needs the `pamixer` package) |
+| `XF86AudioMute` | Toggle Audio Mute | Controlled via `pamixer -t` (needs the `pamixer` package) |
+| `XF86MonBrightnessUp` | Brightness +5% | Controlled via `brightnessctl set +5%` (needs the `brightnessctl` package) |
+| `XF86MonBrightnessDown` | Brightness -5% | Controlled via `brightnessctl set 5%-` (needs the `brightnessctl` package) |
+| **System Tray** | | |
+| — | Wifi & Bluetooth icons | `nm-applet` and `blueman-applet` autostart into the bar's tray (`tray_output primary`); needs `network-manager-applet` and `blueman` |
 
 ---
 

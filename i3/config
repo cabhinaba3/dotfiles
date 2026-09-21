@@ -43,28 +43,23 @@ bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
+# split next window horizontally / vertically
+bindsym $mod+b split h
+bindsym $mod+v split v
+
 # enter fullscreen mode for the focused container
-bindsym $mod+Shift+space fullscreen
+bindsym $mod+f fullscreen
 
 # change container layout (stacked, tabbed, toggle split)
-bindsym $mod+y layout splitv
-bindsym $mod+u layout splith
-bindsym $mod+i layout stacking
-bindsym $mod+o layout tabbed
-
-bindsym $mod+Shift+Y split h; layout splitv
-bindsym $mod+Shift+U split h; layout splith
-bindsym $mod+Shift+I split h; layout stacking
-bindsym $mod+Shift+O split h; layout tabbed
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
-bindsym $mod+Shift+F floating toggle
-
-# change focus between tiling / floating windows
-bindsym $mod+f focus mode_toggle
+bindsym $mod+Shift+space floating toggle
 
 # focus the parent container
-bindsym $mod+p focus parent
+bindsym $mod+a focus parent
 
 # focus the child container
 bindsym $mod+n focus child
@@ -105,7 +100,7 @@ bindsym $mod+Shift+R restart
 bindsym $mod+Shift+E exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # lock screen
-bindsym $mod+Escape exec --no-startup-id i3lock -c 202020 && xset dpms force off
+bindsym $mod+Pause exec --no-startup-id i3lock -c 202020 && xset dpms force off
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -180,6 +175,12 @@ bar {
 	}
 }
 
+# Import DISPLAY/XAUTHORITY into the systemd --user and D-Bus activation
+# environment. Without this, D-Bus-activated services (e.g. dunst, started
+# on-demand when something sends a desktop notification) fail with
+# "Cannot open X11 display" because they never see DISPLAY.
+exec --no-startup-id dbus-update-activation-environment --systemd DISPLAY XAUTHORITY XDG_SESSION_TYPE
+
 # Compositor (picom)
 exec_always --no-startup-id bash -c "killall -q picom; picom --config ~/.config/picom/picom.conf -b"
 
@@ -192,6 +193,11 @@ exec --no-startup-id ~/.config/i3/launch_alacritty_monitors.sh
 # Set Dracula cursor theme (via xrdb and xsetroot)
 exec_always --no-startup-id xrdb -merge ~/.Xresources
 exec_always --no-startup-id xsetroot -cursor_name left_ptr
+
+# System tray applets: network (wifi) and bluetooth icons in the bar
+# (bar has tray_output primary set above, so these render there)
+exec --no-startup-id nm-applet
+exec --no-startup-id blueman-applet
 
 # Audio controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id pamixer -i 5

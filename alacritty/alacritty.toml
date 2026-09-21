@@ -2,21 +2,21 @@
 draw_bold_text_with_bright_colors = true
 
 [colors.bright]
-black = "#4C566A"
-red = "#BF616A"
-green = "#A3BE8C"
-yellow = "#EBCB8B"
-blue = "#81A1C1"
-magenta = "#B48EAD"
+black = "#AEB3BC"
+red = "#D18D94"
+green = "#BDD0AC"
+yellow = "#F1DAAB"
+blue = "#A4BBD2"
+magenta = "#C9AEC4"
 cyan = "#8FBCBB"
 white = "#ECEFF4"
 
 [colors.cursor]
-cursor = "#D8DEE9"
+cursor = "#ECEFF4"
 text = "#2E3440"
 
 [colors.normal]
-black = "#3B4252"
+black = "#999DA5"
 red = "#BF616A"
 green = "#A3BE8C"
 yellow = "#EBCB8B"
@@ -27,7 +27,7 @@ white = "#E5E9F0"
 
 [colors.primary]
 background = "#2E3440"
-foreground = "#D8DEE9"
+foreground = "#ECEFF4"
 
 [font]
 size = 7.0
@@ -57,6 +57,7 @@ bindings = [
   { key = "Minus", mods = "Control", action = "DecreaseFontSize" },
   { key = "NumpadSubtract", mods = "Control", action = "DecreaseFontSize" },
   { key = "T", mods = "Control|Shift", action = "SpawnNewInstance" },
+  { key = "Return", mods = "Shift", chars = "\u001B\r" },
 ]
 
 [window]

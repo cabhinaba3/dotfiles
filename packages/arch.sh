@@ -7,6 +7,7 @@ PKG_MAP=(
     "python3:python"
     "pkg-config:pkgconf"
     "xsetroot:xorg-xsetroot"
+    "xrandr:xorg-xrandr"
 )
 
 pkg_install() {

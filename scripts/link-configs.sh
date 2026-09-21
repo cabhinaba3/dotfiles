@@ -61,7 +61,7 @@ link_x11_cursor_theme() {
     step "Configuring cursor theme (X11)"
     link "$DOTFILES_ROOT/x11/gtk-3.0-settings.ini" "$HOME/.config/gtk-3.0/settings.ini"
     link "$DOTFILES_ROOT/x11/default-cursor-index.theme" "$HOME/.icons/default/index.theme"
-    install_block "$HOME/.Xresources" "xresources-cursor" "$DOTFILES_ROOT/x11/Xresources.cursor"
+    install_block "$HOME/.Xresources" "xresources-cursor" "$DOTFILES_ROOT/x11/Xresources.cursor" "!"
 }
 
 link_claude_config() {
